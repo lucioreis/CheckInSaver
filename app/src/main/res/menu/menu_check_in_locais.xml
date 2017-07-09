@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="inf221.trabalho.com.checkinsaver.controller.CheckInLocais">
+    <item
+        android:id="@+id/action_mapa_de_checkin"
+        android:orderInCategory="100"
+        android:title="@string/mapa_de_checkin"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/gestao_de_checkin"
+        android:orderInCategory="100"
+        android:title="@string/gestao_checkin"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/lugares_mais_visitdos"
+        android:orderInCategory="100"
+        android:title="@string/lugares_mais_visitados"
+        app:showAsAction="never" />
+
+</menu>

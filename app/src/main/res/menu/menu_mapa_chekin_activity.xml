@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_mapa">
+
+    <item
+        android:id="@+id/voltar"
+        android:orderInCategory="10"
+        android:title="@string/voltar"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/gestao_de_checkin"
+        android:orderInCategory="20"
+        android:title="@string/gestao_checkin"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/lugares_mais_visitdos"
+        android:orderInCategory="30"
+        android:title="@string/lugares_mais_visitados"
+        app:showAsAction="never" />
+
+</menu>
