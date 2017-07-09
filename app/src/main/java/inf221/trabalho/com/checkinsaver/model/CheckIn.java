@@ -8,7 +8,18 @@ public class CheckIn {
     private String nomeDoLocal;
     private int qtdVisitas;
     private double latitude;
+    private double longitude;
+    private Categoria categoria;
 
+    public CheckIn(){}
+
+    public CheckIn(String nomeDoLocal, int qtdVisitas, double latitude, double longitude, Categoria categoria){
+        this.nomeDoLocal = nomeDoLocal;
+        this.qtdVisitas = qtdVisitas;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.categoria = categoria;
+    }
     public String getNomeDoLocal() {
         return nomeDoLocal;
     }
@@ -49,6 +60,10 @@ public class CheckIn {
         this.categoria = categoria;
     }
 
-    private double longitude;
-    private Categoria categoria;
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof CheckIn){
+            return this.nomeDoLocal.equals(((CheckIn) obj).getNomeDoLocal());
+        } else return false;
+    }
 }

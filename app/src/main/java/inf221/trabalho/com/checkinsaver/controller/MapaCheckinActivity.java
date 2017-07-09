@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -18,13 +19,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 import inf221.trabalho.com.checkinsaver.R;
+import inf221.trabalho.com.checkinsaver.model.CheckIn;
+import inf221.trabalho.com.checkinsaver.model.ControladoraFachadaSingleton;
 
 public class MapaCheckinActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private final int TIPOS_DE_MAPAS = 150;
     private final int HIBRIDO = 0, NORMAL = 1;
+    private ControladoraFachadaSingleton controldora = ControladoraFachadaSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,15 @@ public class MapaCheckinActivity extends AppCompatActivity implements OnMapReady
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        List<CheckIn> locais = controldora.getCheckins();
+        Log.i("debug", "locai.isEmpty = " + locais.isEmpty());
+        for(CheckIn c: locais){
+            LatLng localizacaoDeC = new LatLng(c.getLatitude(), c.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(localizacaoDeC).title(c.getNomeDoLocal()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(localizacaoDeC));
+        }
+
     }
 
     @Override

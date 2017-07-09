@@ -2,6 +2,7 @@ package inf221.trabalho.com.checkinsaver.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import inf221.trabalho.com.checkinsaver.util.BancoDadosSingleton;
 public class ControladoraFachadaSingleton {
     private static final ControladoraFachadaSingleton ourInstance = new ControladoraFachadaSingleton();
     private List<CheckIn> checkIns;
+    private List<Categoria> categorias;
     private BancoDadosSingleton bancoDadosSingleton = BancoDadosSingleton.getInstance();
 
     public static ControladoraFachadaSingleton getInstance() {
@@ -23,6 +25,7 @@ public class ControladoraFachadaSingleton {
 
     private ControladoraFachadaSingleton() {
         daoCheckins();
+        daoCategorias();
     }
 
     private void daoCheckins() {
@@ -41,8 +44,22 @@ public class ControladoraFachadaSingleton {
         }
     }
 
+    private void daoCategorias() {
+        Cursor c = bancoDadosSingleton.buscar("Categoria", new String[]{"nome"}, "", "");
+        if (categorias == null) categorias = new ArrayList<>();
+        while (c.moveToNext()) {
+            Log.i("categoria", c.getString(c.getColumnIndex("nome")));
+            Categoria categoria = new Categoria(c.getString(c.getColumnIndex("nome")));
+            categorias.add(categoria);
+        }
+    }
+
     public List<CheckIn> getCheckins() {
         return checkIns;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
     }
 
     private void persistirCheckIn(CheckIn checkIn) {
@@ -57,11 +74,16 @@ public class ControladoraFachadaSingleton {
         bancoDadosSingleton.inserir("Checkin", contentValues);
     }
 
-    public void addCheckin(CheckIn checkIn){
-        if(checkIns == null) checkIns = ArrayList<>();
+    public void addCheckin(CheckIn checkIn) {
+        if (checkIns == null) checkIns = new ArrayList<>();
         checkIns.add(checkIn);
         persistirCheckIn(checkIn);
     }
 
-    public void
+    public void removeCheckin(CheckIn checkIn) {
+        if (checkIns.isEmpty()) return;
+        checkIns.remove(checkIn);
+        String checkInLocal = checkIn.getNomeDoLocal();
+        bancoDadosSingleton.deletar("Checkin", "Local = " + checkInLocal);
+    }
 }

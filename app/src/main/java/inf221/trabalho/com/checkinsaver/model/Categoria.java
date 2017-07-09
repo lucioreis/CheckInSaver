@@ -18,4 +18,9 @@ public class Categoria {
         return nome;
     }
 
+    @Override
+    public String toString(){
+        return nome;
+    }
+
 }

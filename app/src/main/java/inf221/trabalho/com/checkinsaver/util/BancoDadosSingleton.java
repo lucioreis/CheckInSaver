@@ -11,7 +11,7 @@ import android.util.Log;
  */
 
 public final class BancoDadosSingleton {
-    private final String NOME_BANCO = new String("checkin_saver.db");
+    private final String NOME_BANCO = new String("checkin_saver_db");
 
     public static BancoDadosSingleton getInstance() {
         return ourInstance;
@@ -19,20 +19,23 @@ public final class BancoDadosSingleton {
 
     private static BancoDadosSingleton ourInstance = new BancoDadosSingleton();
     private final String[] SCRIPT_DATA_BASE_CREATE = new String[]{
-            "CREATE TABLE Checkin (Local TEXT PRIMARY KEY, qtdVisitas INTEGER",
-            "NOT NULL, cat INTEGER NOT NULL, latitude TEXT NOT NULL,",
-            "longitude TEXT NOT NULL, CONSTRAINT fkey0 FOREIGN KEY (cat)",
-            "REFERENCES Categoria (idCategoria));",
-            "CREATE TABLE Categoria (idCategoria INTEGER PRIMARY KEY",
-            "AUTOINCREMENT, nome TEXT NOT NULL);",
-            "INSERT INTO Categoria (nome) VALUES ('Restaurante');",
-            "INSERT INTO Categoria (nome) VALUES ('Bar');",
-            "INSERT INTO Categoria (nome) VALUES ('Cinema');",
-            "INSERT INTO Categoria (nome) VALUES ('Universidade');",
-            "INSERT INTO Categoria (nome) VALUES ('Estádio');",
-            "INSERT INTO Categoria (nome) VALUES ('Parque');",
-            "INSERT INTO Categoria (nome) VALUES ('Outros');"};
-
+            "CREATE TABLE Checkin (" +
+                    "Local TEXT PRIMARY KEY," +
+                    "qtdVisitas INTEGER NOT NULL, " +
+                    "cat INTEGER NOT NULL, " +
+                    "latitude TEXT NOT NULL," +
+                    "longitude TEXT NOT NULL,"+
+                    "CONSTRAINT fkey0 FOREIGN KEY (cat) REFERENCES Categoria (idCategoria) );",
+            "CREATE TABLE Categoria ("+
+                    "idCategoria INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "nome TEXT NOT NULL );",
+            "INSERT INTO Categoria (nome) VALUES ('Restaurante'),"+
+                                                "('Bar'),"+
+                                                "('Cinema'),"+
+                                                "('Universidade')," +
+                                                "('Estádio')," +
+                                                "('Parque')," +
+                                                "('Outros');"};
     SQLiteDatabase db;
 
     private BancoDadosSingleton() {
