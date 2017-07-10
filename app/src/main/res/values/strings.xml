@@ -20,5 +20,10 @@
     <string name="title_activity_mapa_checkin">Map</string>
     <string name="title_activity_gestao_checkin">GestaoCheckinActivity</string>
     <string name="title_activity_lugares_mais_visitados">LugaresMaisVisitadosActivity</string>
+    <string name="delete"> APAGAR </string>
+    <string name="exclusao"> EXCLUSÃO </string>
+    <string name="exclusao_message"> Tem certeza que deseja excluir:\n </string>
+    <string name="confirma"> Sim </string>
+    <string name="rejeita"> Não </string>
 
 </resources>

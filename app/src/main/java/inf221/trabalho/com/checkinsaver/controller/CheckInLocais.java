@@ -50,7 +50,7 @@ public class CheckInLocais extends AppCompatActivity implements LocationListener
         spinner = (Spinner) findViewById(R.id.spinner_categoria);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categorias);
         spinner.setAdapter(arrayAdapter);
-
+        setTitle("Check-In");
         for(Categoria c : categorias){
             Log.i("cats", c.getNome());
         }
@@ -126,21 +126,14 @@ public class CheckInLocais extends AppCompatActivity implements LocationListener
 
     public void persistirNoBanco(View v) {
         Log.i("nome", this.toString());
-        List<CheckIn> locais = controladora.getCheckins();
         EditText nomeDoLocal = (EditText) findViewById(R.id.nome_do_local);
         Categoria categoria = (Categoria) spinner.getSelectedItem();
         Log.i("latlong", "latitude.toStrng() = " + latitude.getText().toString() + " longitude.toString() = " + longitude.getText().toString());
         CheckIn newCheckin = new CheckIn(nomeDoLocal.getText().toString(), 1, location.getLatitude(), location.getLongitude(), categoria);
-        for(CheckIn c : locais){
-            if(c.equals(newCheckin)) {
-                c.setQtdVisitas(c.getQtdVisitas() + 1);
-                startActivity(new Intent(this, CheckInLocais.class));
-                finish();
-            }
-        }
         controladora.addCheckin(newCheckin);
-        startActivity(new Intent(this, CheckInLocais.class));
         finish();
+        startActivity(new Intent(this, CheckInLocais.class));
+
     }
 
     @Override

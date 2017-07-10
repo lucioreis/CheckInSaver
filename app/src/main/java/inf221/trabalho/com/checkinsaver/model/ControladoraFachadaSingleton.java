@@ -76,6 +76,16 @@ public class ControladoraFachadaSingleton {
 
     public void addCheckin(CheckIn checkIn) {
         if (checkIns == null) checkIns = new ArrayList<>();
+        if(checkIns.contains(checkIn)){
+            int pos = checkIns.indexOf(checkIn);
+            checkIn = checkIns.get(pos);
+            ContentValues cvs = new ContentValues();
+            cvs.put("qtdVisitas", checkIn.getQtdVisitas() + 1);
+            checkIn.setQtdVisitas(checkIn.getQtdVisitas() + 1);
+            int a  = bancoDadosSingleton.atualizar("Checkin", cvs, "Local = '"+ checkIn.getNomeDoLocal()+"'");
+            Log.i("debug", "Entrou em addCheckin(Checkin checkin) " + a);
+            return;
+        }
         checkIns.add(checkIn);
         persistirCheckIn(checkIn);
     }
@@ -84,6 +94,6 @@ public class ControladoraFachadaSingleton {
         if (checkIns.isEmpty()) return;
         checkIns.remove(checkIn);
         String checkInLocal = checkIn.getNomeDoLocal();
-        bancoDadosSingleton.deletar("Checkin", "Local = " + checkInLocal);
+        bancoDadosSingleton.deletar("Checkin", "Local = '" + checkInLocal + "'");
     }
 }
