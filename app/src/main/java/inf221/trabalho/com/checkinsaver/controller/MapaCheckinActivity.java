@@ -31,11 +31,12 @@ public class MapaCheckinActivity extends AppCompatActivity implements OnMapReady
     private final int TIPOS_DE_MAPAS = 150;
     private final int HIBRIDO = 0, NORMAL = 1;
     private ControladoraFachadaSingleton controldora = ControladoraFachadaSingleton.getInstance();
-
+    private Intent it;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_checkin);
+        it = getIntent();
         setTitle("Mapas de Check-In's");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -61,9 +62,14 @@ public class MapaCheckinActivity extends AppCompatActivity implements OnMapReady
         Log.i("debug", "locai.isEmpty = " + locais.isEmpty());
         for(CheckIn c: locais){
             LatLng localizacaoDeC = new LatLng(c.getLatitude(), c.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(localizacaoDeC).title(c.getNomeDoLocal()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(localizacaoDeC));
+            mMap.addMarker(new MarkerOptions()
+                    .position(localizacaoDeC)
+                    .title(c.getNomeDoLocal())
+                    .snippet("Categoria: "+c.getCategoria()+ " Visitas: "+c.getQtdVisitas()));
         }
+        LatLng localizacao = new LatLng(it.getDoubleExtra("latitude", 0), it.getDoubleExtra("longitude", 0));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(localizacao));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(localizacao, 18));
 
     }
 

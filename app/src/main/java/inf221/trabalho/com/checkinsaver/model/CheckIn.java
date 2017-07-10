@@ -66,4 +66,9 @@ public class CheckIn {
             return this.nomeDoLocal.equals(((CheckIn) obj).getNomeDoLocal());
         } else return false;
     }
+
+    @Override
+    public String toString(){
+        return nomeDoLocal;
+    }
 }

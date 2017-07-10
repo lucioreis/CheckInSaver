@@ -10,32 +10,34 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginLeft="16dp"
+        android:text="LOCAL:"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView10"
-        tools:layout_editor_absoluteX="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         tools:text="LOCAL:" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="VISITAS:"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="VISITAS:"
-        android:layout_marginEnd="8dp" />
+        tools:text="VISITAS:" />
 
     <ListView
         android:id="@+id/lista_de_lugaes_mais_visitados"
         android:layout_width="367dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 </android.support.constraint.ConstraintLayout>

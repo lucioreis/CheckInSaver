@@ -20,10 +20,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.security.Provider;
 import java.util.List;
@@ -48,12 +50,18 @@ public class CheckInLocais extends AppCompatActivity implements LocationListener
         setContentView(R.layout.activity_check_in_locais);
 
         spinner = (Spinner) findViewById(R.id.spinner_categoria);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, categorias);
+        ArrayAdapter<Categoria> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categorias);
         spinner.setAdapter(arrayAdapter);
         setTitle("Check-In");
         for(Categoria c : categorias){
             Log.i("cats", c.getNome());
         }
+        ControladoraFachadaSingleton controladora = ControladoraFachadaSingleton.getInstance();
+
+        ArrayAdapter<CheckIn> arrayAdapter1 = new ArrayAdapter<>(this,  android.R.layout.simple_dropdown_item_1line, controladora.getCheckins());
+        AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.nome_do_local);
+        autoCompleteTextView.setAdapter(arrayAdapter1);
+        autoCompleteTextView.setThreshold(3);
 
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -83,6 +91,8 @@ public class CheckInLocais extends AppCompatActivity implements LocationListener
             latitude.setText( String.format(Locale.getDefault(),location.getLatitude()+"") );
             longitude.setText( String.format(Locale.getDefault(), ""+location.getLongitude()) );
             Log.i("latlong", "latitude = "+ latitude + " longitude = " + longitude);
+        } else {
+            Toast.makeText(this, "Não há localizacção disponivel!", Toast.LENGTH_SHORT).show();
         }
 
         Log.i("latlong", "latitude = "+ latitude + " longitude = " + longitude);
@@ -116,7 +126,13 @@ public class CheckInLocais extends AppCompatActivity implements LocationListener
             return true;
         }
         if (id == R.id.action_mapa_de_checkin) {
+            if(location == null){
+                Toast.makeText(this, "Não foi possivel obter localização", Toast.LENGTH_SHORT).show();
+                return true;
+            }
             Intent it = new Intent(this, MapaCheckinActivity.class);
+            it.putExtra("latitude", location.getLatitude());
+            it.putExtra("longitude", location.getLongitude());
             startActivity(it);
             return true;
         }
@@ -129,11 +145,16 @@ public class CheckInLocais extends AppCompatActivity implements LocationListener
         EditText nomeDoLocal = (EditText) findViewById(R.id.nome_do_local);
         Categoria categoria = (Categoria) spinner.getSelectedItem();
         Log.i("latlong", "latitude.toStrng() = " + latitude.getText().toString() + " longitude.toString() = " + longitude.getText().toString());
-        CheckIn newCheckin = new CheckIn(nomeDoLocal.getText().toString(), 1, location.getLatitude(), location.getLongitude(), categoria);
-        controladora.addCheckin(newCheckin);
+        if(!nomeDoLocal.getText().toString().equals("")) {
+            CheckIn newCheckin = new CheckIn(nomeDoLocal.getText().toString(), 1, location.getLatitude(), location.getLongitude(), categoria);
+            controladora.addCheckin(newCheckin);
+        }else {
+            Toast.makeText(this, "Insira o nome de um lugar para fazer Check-In.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = getIntent();
         finish();
-        startActivity(new Intent(this, CheckInLocais.class));
-
+        startActivity(intent);
     }
 
     @Override
